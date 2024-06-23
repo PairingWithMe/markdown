@@ -1,7 +1,7 @@
 {
   "name": "markdown",
   "scope": "pairingwithme",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "private": false,
   "main": "dist/markdown.js",
