@@ -1,6 +1,6 @@
 {
   "name": "@pairingwithme/markdown",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "private": false,
   "main": "dist/markdown.js",
