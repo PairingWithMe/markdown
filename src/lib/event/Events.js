@@ -1,0 +1,5 @@
+export const MESSAGE = "MESSAGE";
+
+export const SELECT_CODE_LINES = "SELECT_CODE_LINES";
+
+export const UNSELECT_CODE_LINES = "UNSELECT_CODE_LINES";
