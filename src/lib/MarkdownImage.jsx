@@ -29,18 +29,30 @@ export default function MarkdownImage(props) {
     return null;
   }
 
+  let alt = props.alt;
+  let inline = false;
+
+  if (alt.startsWith("inline:")) {
+    alt = alt.replace("inline:", "");
+    inline = true;
+  }
+
   if (src === "logo") {
-    return <FontAwesomeIcon icon={`fab fa-${props.alt}`} />;
+    return <FontAwesomeIcon icon={`fab fa-${alt}`} />;
   }
   
   if (src === "icon") {
-    return <FontAwesomeIcon icon={`fas fa-${props.alt}`} />;
+    return <FontAwesomeIcon icon={`fas fa-${alt}`} />;
+  }
+
+  if (inline) {
+    return <Image {...props} src={src} />;
   }
 
   return (
     <ImageBox>
       <LazyLoad>
-        <Image banner={props.alt === "banner"} {...props} src={src} />
+        <Image banner={alt === "banner"} {...props} src={src} />
       </LazyLoad>
     </ImageBox>
   );

@@ -20,6 +20,6 @@ export function codeLineRule() {
       content += `-${lineEnd}`;
     }
 
-    return `[${text}](lines://${content})`;
+    return `[${text}](lines_${content})`;
   });
 }

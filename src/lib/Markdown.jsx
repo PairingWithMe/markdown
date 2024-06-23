@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import ReactMarkdown from "react-markdown";
 import MarkdownCode from "./MarkdownCode";
 import { MarkdownLink } from "./MarkdownLink";
-import { H1, H2, H3, H4, H5, H6 } from "./MarkdownHeading";
+import { H1, H2, H3, H4, H5, H6, withId } from "./MarkdownHeading";
 import { TextHighlight } from "./TextHighlight";
 import MarkdownLine from "./MarkdownLine";
 import MarkdownLineThrough from "./MarkdownLineThrough";
@@ -32,31 +32,38 @@ export default function Markdown(props) {
   useEffect(() => {
     if (!props.content) return;
 
-    textTransform(props.content).then(content => setContent(content));
-  }, [props.content]);
+    textTransform(props.content, props.rules).then((content) =>
+      setContent(content),
+    );
+  }, [props.content, props.rules]);
 
   if (!content) {
-    return (
-      <div>
-      </div>
-    );
+    return <div>{props.noContent}</div>;
   }
 
   return (
     <ReactMarkdown
       components={{
         a: MarkdownLink,
-        h1: H1,
-        h2: H2,
-        h3: H3,
-        h4: H4,
-        h5: H5,
-        h6: H6,
-        img: ({ node, ...params }) => <MarkdownImage article={props.article} {...params} />,
-        del: ({ node, ...params }) => <MarkdownLineThrough>{params.children}</MarkdownLineThrough>,
+        h1: withId(H1),
+        h2: withId(H2),
+        h3: withId(H3),
+        h4: withId(H4),
+        h5: withId(H5),
+        h6: withId(H6),
+        img: ({ node, ...params }) => (
+          <MarkdownImage {...params} />
+        ),
+        del: ({ node, ...params }) => (
+          <MarkdownLineThrough>{params.children}</MarkdownLineThrough>
+        ),
         hr: () => <MarkdownLine />,
-        em: ({ node, ...params }) => <TextHighlight>{params.children}</TextHighlight>,
-        strong: ({ node, ...params }) => <TextHighlight color="0, 255, 0">{params.children}</TextHighlight>,
+        em: ({ node, ...params }) => (
+          <TextHighlight>{params.children}</TextHighlight>
+        ),
+        strong: ({ node, ...params }) => (
+          <TextHighlight color="0, 255, 0">{params.children}</TextHighlight>
+        ),
         table: ({ node, ...params }) => <MarkdownTable {...params} />,
         blockquote: ({ node, ...params }) => <MarkdownQuote {...params} />,
         p: ({ node, ...params }) => <MarkdownParagraph {...params} />,
@@ -72,15 +79,26 @@ export default function Markdown(props) {
             );
           }
           return !inline && language ? (
-            <MarkdownCode language={language[1]} {...params} children={String(children).replace(/\n$/, "")} />
+            <MarkdownCode
+              language={language[1]}
+              {...params}
+              children={String(children).replace(/\n$/, "")}
+            />
           ) : (
             <TextHighlight color="255, 150, 150">{children}</TextHighlight>
           );
-        }
+        },
       }}
-      remarkPlugins={[remarkGfm, remarkMath, remarkEmoji, remarkMermaidPlugin, remarkSocial]}
+      remarkPlugins={[
+        remarkGfm,
+        remarkMath,
+        remarkEmoji,
+        remarkMermaidPlugin,
+        remarkSocial,
+      ]}
       rehypePlugins={[rehypeKatex, rehypeRaw, rehypeStringify]}
-      remarkRehypeOptions={{ emoticon: true }}>
+      remarkRehypeOptions={{ emoticon: true }}
+    >
       {content}
     </ReactMarkdown>
   );

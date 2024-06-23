@@ -1,11 +1,7 @@
-import { codeLineRule, hashTagRule } from "./TagRules";
-
-export async function textTransform(text) {
+export async function textTransform(text, rules = []) {
   if (!text) {
     return text;
   }
-
-  const rules = [hashTagRule(), codeLineRule()];
 
   const references = [];
 

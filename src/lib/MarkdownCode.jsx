@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { darcula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { SELECT_CODE_LINES, UNSELECT_CODE_LINES } from "./event/Events";
-import useHandler from "@aux4/use-handler";
+import { useHandler } from "@aux4/use-handler";
 
 const Code = styled.div`
   font-size: 16px;

@@ -40,3 +40,13 @@ export const H6 = styled.h6`
   font-size: 20px;
   letter-spacing: 0.15px;
 `;
+
+export function withId(Component) {
+  return function ComponentWithId({ id, children }) {
+    let componentId = id;
+    if (!componentId && typeof children === "string") {
+      componentId = children.replace(/[^a-zA-Z0-9]+/g, "-").toLowerCase();
+    }
+    return <Component id={componentId}>{children}</Component>;
+  };
+}

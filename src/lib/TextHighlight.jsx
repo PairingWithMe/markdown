@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
-import { css } from "@emotion/css";
 
 const HIGHLIGHT_YELLOW_COLOR = "252, 239, 53";
 
-const Highlight = css`
+export const TextHighlight = styled.span`
   background: linear-gradient(
       104deg,
       rgba(${({ color }) => color || HIGHLIGHT_YELLOW_COLOR}, 0) 0.9%,
@@ -23,8 +22,4 @@ const Highlight = css`
   border-radius: 7.5px;
   text-shadow: -12px 12px 9.8px rgba(${({ color }) => color || HIGHLIGHT_YELLOW_COLOR}, 0.7),
     21px -18.1px 7.3px rgba(255, 255, 255, 1), -18.1px -27.3px 30px rgba(255, 255, 255, 1);
-`;
-
-export const TextHighlight = styled.span`
-  ${Highlight}
 `;

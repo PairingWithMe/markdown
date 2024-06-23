@@ -31,13 +31,15 @@ export function MarkdownLink({ href, ...otherProps }) {
     return (
       <Link href={href} target="_blank" {...otherProps}>
         {otherProps.children}
-        <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+        {typeof otherProps.children === "string" && (
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+        )}
       </Link>
     );
   }
 
-  if (otherProps.node.properties.href.startsWith("lines")) {
-    const lines = otherProps.node.properties.href.replace("lines://", "");
+  if (otherProps.node.properties.href.startsWith("lines_")) {
+    const lines = otherProps.node.properties.href.replace("lines_", "");
     const splitLines = lines.split("-");
     const start = parseInt(splitLines[0]);
     const end = splitLines[1] ? parseInt(splitLines[1]) : undefined;
@@ -48,16 +50,22 @@ export function MarkdownLink({ href, ...otherProps }) {
         {...otherProps}
         style={{ cursor: "pointer" }}
         onMouseEnter={() => selectCodeLines(start, end)}
-        onMouseLeave={() => unselectCodeLines()}>
+        onMouseLeave={() => unselectCodeLines()}
+      >
         {otherProps.children}
       </TextHighlight>
     );
   }
 
-  if (otherProps.children.length > 0 && otherProps.children[0].startsWith("#")) {
+  if (
+    otherProps.children.length > 0 &&
+    otherProps.children[0].startsWith("#")
+  ) {
     return (
       <HashTagLink href={href} {...otherProps}>
-        <TextHighlight color="150, 200, 255">{otherProps.children}</TextHighlight>
+        <TextHighlight color="150, 200, 255">
+          {otherProps.children}
+        </TextHighlight>
       </HashTagLink>
     );
   }

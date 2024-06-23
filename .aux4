@@ -20,6 +20,7 @@
             "npm version ${version}",
             "json:cat package.json",
             "set:versionNumber=${response.version}",
+            "npm run build",
             "npm publish --access public --tag ${tag} --otp=${otp}",
             "git push --follow-tags",
             "echo ${versionNumber} released successfully"
