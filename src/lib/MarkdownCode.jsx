@@ -4,14 +4,37 @@ import { darcula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { SELECT_CODE_LINES, UNSELECT_CODE_LINES } from "./event/Events";
 import { useHandler } from "@aux4/use-handler";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 const Code = styled.div`
+  position: relative;
   font-size: 16px;
   max-width: 100%;
   overflow-x: auto;
 
   && > div {
     margin: 0 !important;
+  }
+`;
+
+const CopyButton = styled.button`
+  position: absolute;
+  padding: 5px;
+  top: 5px;
+  right: 5px;
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #666;
+  box-shadow: none;
+  border: none;
+
+  &:hover {
+    color: #fff;
+    cursor: pointer;
   }
 `;
 
@@ -39,8 +62,24 @@ export default function MarkdownCode(props) {
     setHighlightedLines([]);
   }, [UNSELECT_CODE_LINES]);
 
+  const handleCopy = () => {
+    const language = props.language;
+    let text = props.children;
+
+    if (!text) return;
+
+    if (language === "bash") {
+      text = text.replace(/^[>$]\s/g, "");
+    }
+
+    navigator.clipboard.writeText(text);
+  };
+
   return (
     <Code>
+      <CopyButton onClick={handleCopy}>
+        <FontAwesomeIcon icon={faCopy} />
+      </CopyButton>
       <SyntaxHighlighter
         showLineNumbers
         wrapLines

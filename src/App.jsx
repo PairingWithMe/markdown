@@ -3,14 +3,11 @@ import Markdown from "./lib/Markdown";
 function App() {
   return (
     <>
-      <Markdown>
-        {`
+      <Markdown
+        content={`
 # Hello, world!
-
-
-[google](https://google.com)
 `}
-      </Markdown>
+      />
     </>
   );
 }
