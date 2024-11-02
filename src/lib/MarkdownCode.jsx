@@ -12,6 +12,8 @@ const Code = styled.div`
   font-size: 16px;
   max-width: 100%;
   overflow-x: auto;
+  padding-right: 15px;
+  background-color: #2b2b2b;
 
   && > div {
     margin: 0 !important;
@@ -38,11 +40,11 @@ const CopyButton = styled.button`
   }
 `;
 
-export default function MarkdownCode(props) {
+export default function MarkdownCode({ hideLineNumbers, hideCopy, ...props }) {
   const [highlightedLines, setHighlightedLines] = useState([]);
 
   useHandler(
-    (eventType, options) => {
+    (_, options) => {
       const lines = [options.start];
 
       if (options.end && options.end > options.start) {
@@ -73,15 +75,21 @@ export default function MarkdownCode(props) {
     }
 
     navigator.clipboard.writeText(text);
+
+    if (props.onCopy) {
+      props.onCopy(text);
+    }
   };
 
   return (
     <Code>
-      <CopyButton onClick={handleCopy}>
-        <FontAwesomeIcon icon={faCopy} />
-      </CopyButton>
+      {!hideCopy && (
+        <CopyButton onClick={handleCopy}>
+          <FontAwesomeIcon icon={faCopy} />
+        </CopyButton>
+      )}
       <SyntaxHighlighter
-        showLineNumbers
+        showLineNumbers={!hideLineNumbers}
         wrapLines
         lineNumberStyle={{ minWidth: "30px" }}
         lineProps={(lineNumber) => {

@@ -33,7 +33,7 @@ export function rule(regex, transformer) {
         const textMatch = match[0];
         const start = match.index;
         const end = start + textMatch.length;
-        const replacement = await transformer(textMatch, text);
+        const replacement = await transformer(textMatch, text, match);
 
         references.push({ text: textMatch, start, end, replacement });
       }

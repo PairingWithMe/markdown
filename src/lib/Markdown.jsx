@@ -17,7 +17,7 @@ import remarkGfm from "remark-gfm";
 import remarkEmoji from "remark-emoji";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import remarkMermaidPlugin from "remark-mermaid-plugin";
+import remarkMermaid from "remark-mermaidjs";
 import rehypeRaw from "rehype-raw";
 import rehypeStringify from "rehype-stringify";
 import { remarkSocial } from "./plugin/SocialRemarkPlugin";
@@ -80,6 +80,9 @@ export default function Markdown(props) {
           }
           return !inline && language ? (
             <MarkdownCode
+              hideCopy={props.hideCopy}
+              hideLineNumbers={props.hideLineNumbers}
+              onCopy={props.onCopy}
               language={language[1]}
               {...params}
               children={String(children).replace(/\n$/, "")}
@@ -93,7 +96,7 @@ export default function Markdown(props) {
         remarkGfm,
         remarkMath,
         remarkEmoji,
-        remarkMermaidPlugin,
+        remarkMermaid,
         remarkSocial,
       ]}
       rehypePlugins={[rehypeKatex, rehypeRaw, rehypeStringify]}
